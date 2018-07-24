@@ -1,2 +1,3 @@
 # render_chart
-# 这是自己做的效率工具，根据excel文件中的数据，生成页面，数据用highcharts展示
+- this app is used for myself.
+- read excel file datas then render html file, and download.
