@@ -1,5 +1,5 @@
-source 'https://rubygems.org'
-gem 'sinatra', :github => 'sinatra/sinatra'
+source 'https://gems.ruby-china.com'
+gem 'sinatra'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'roo'
 gem "puma"
