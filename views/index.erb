@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传文件</title>
+    <style type="text/css">
+        .layui-btn {
+            display: inline-block;
+            height: 38px;
+            line-height: 38px;
+            padding: 0 18px;
+            background-color: #009688;
+            color: #fff;
+            white-space: nowrap;
+            text-align: center;
+            font-size: 14px;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .layui-btn-normal {
+            background-color: #1E9FFF;
+        }
+    </style>
+</head>
+<body>
+    <form action="/uploads" method="post" enctype="multipart/form-data">
+        <div style="margin-top:40vh;text-align: center;">
+            <p>点击下方选择文件</p>
+            <input type='file' class='layui-btn layui-btn-normal' name='file' accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'>
+            <input type='submit' class='layui-btn' value='提交'>
+        </div>
+    </form>
+</body>
+</html>
