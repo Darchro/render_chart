@@ -9,4 +9,5 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano3-puma', github: "seuros/capistrano-puma"
+  gem "rubycritic", require: false
 end
