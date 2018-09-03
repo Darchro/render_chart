@@ -3,6 +3,7 @@ gem 'sinatra'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'roo'
 gem "puma"
+gem "multi_json"
 
 group :development do
   gem 'capistrano'

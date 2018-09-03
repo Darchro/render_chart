@@ -4,29 +4,41 @@ require 'rack/cors'
 require "erb"
 require 'roo'
 require 'json'
+require 'multi_json'
 
 require_relative "lib/chart.rb"
 
 class ChartsApp < Sinatra::Base
+  configure do
+    set :raise_errors, true
+    set :show_exceptions, false
+  end
+
   get '/' do
     erb :index
   end
 
   post '/uploads' do
-    #文件临时存储在服务器上
-    file_name = params[:file][:filename]
-    file = params[:file][:tempfile]
-    File.open("./public/download_tmp/#{file_name}", 'wb') do |f|
-      f.write(file.read)
+    begin
+      #文件临时存储在服务器上
+      file_name = params[:file][:filename]
+      file = params[:file][:tempfile]
+      tmp_file_name = "#{Date.today.to_s}_#{file_name}"
+      File.open("./public/download_tmp/#{tmp_file_name}", 'wb') do |f|
+        f.write(file.read)
+      end
+
+      #处理数据
+      @data = data_parse(xls_parse(tmp_file_name))
+
+      #生成一个html文件
+      render_chart(@data, tmp_file_name)
+
+      send_file "./public/download_tmp/#{tmp_file_name.split('.').first}.html", :filename => "#{tmp_file_name.split('.').first}.html", :type => 'Application/octet-stream'
+    rescue => ex
+      hash = { :message => ex.to_s }
+      [500, {'Content-Type' => 'application/json'}, [MultiJson.dump(hash)]]
     end
-
-    #处理数据
-    @data = data_parse(xls_parse(file_name))
-    
-    #生成一个html文件
-    render_chart(@data, file_name)
-
-    send_file "./public/download_tmp/#{file_name.split('.').first}.html", :filename => "#{file_name.split('.').first}.html", :type => 'Application/octet-stream'
   end
 
   private
@@ -37,7 +49,7 @@ class ChartsApp < Sinatra::Base
       x_data = value.first
       x_data.shift
       x_data = x_data.map{|date| Date.parse(date.to_s).strftime("%-m/%d")}
-      case 
+      case
       when key.include?('支付商品件数')
         value[1, value.length - 1].each do |e|
           item = e.first.split("-").first #获取商品类目

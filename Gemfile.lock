@@ -54,6 +54,7 @@ GEM
     launchy (2.4.3)
       addressable (~> 2.3)
     mini_portile2 (2.3.0)
+    multi_json (1.13.1)
     mustermann (1.0.2)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -118,6 +119,7 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-rvm
   capistrano3-puma!
+  multi_json
   puma
   rack-cors
   roo
@@ -125,4 +127,4 @@ DEPENDENCIES
   sinatra
 
 BUNDLED WITH
-   1.15.0
+   1.16.2
