@@ -5,13 +5,26 @@ require "erb"
 require 'roo'
 require 'json'
 require 'multi_json'
+require 'logger'
 
 require_relative "lib/chart.rb"
+
+APP_ROOT = File.dirname(__FILE__)
 
 class ChartsApp < Sinatra::Base
   configure do
     set :raise_errors, true
     set :show_exceptions, false
+    enable :logging
+  end
+
+  before do
+    env["rack.logger"] = Logger.new(File.join(APP_ROOT, "log", "app.log"), "daily")
+    logger.info "request info: " + params.merge(
+      remote_ip: request.ip,
+      user_agent: request.user_agent,
+      timestamp: DateTime.now.to_s
+    ).to_json
   end
 
   get '/' do
